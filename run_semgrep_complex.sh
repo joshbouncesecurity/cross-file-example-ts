@@ -1,0 +1,1 @@
+ semgrep -c cross-file-rule-do-thing.yaml --dataflow-traces --metrics=off --pro

@@ -1,0 +1,18 @@
+rules:
+  - id: cross-file-rule-do-thing
+    languages:
+      - ts
+    options:
+      interfile: true
+    message: Found LINKED where clause generator
+    mode: taint
+    pattern-sources:
+      - pattern: |
+          @Get(...)
+          $FUNC(...) {...}
+        control: true
+    pattern-sinks:
+      - patterns:
+        - pattern: return $VAR
+        - pattern-inside: DoThing(...){...}
+    severity: WARNING
