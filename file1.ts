@@ -12,11 +12,19 @@ export class LocalController extends Controller {
         super()
     }
 
+    protected oService2: OtherService = new OtherService();
+
     @Get('/thingsimple')
     async getIntakeAppointmentsSimple(@Query('personId') personId?: string): Promise<any>
     {
-        const fred = this.DoThing(personId ?? "fred")
-        const appointments = await this.oService.DoThing(personId ?? "fred")
+        // This flow works because it is not cross file.
+        const thisAlwaysWorks = this.DoThing(personId ?? "fred")
+
+        // This flow does not work, presumably because of the weird syntax in the constructor
+        const thisNeverWorks = await this.oService.DoThing(personId ?? "fred")
+
+        // This flow uses a standard class variable and therefore semgrep seems to detect it fine
+        const thisWorksBecauseStandardVar = await this.oService2.DoThing(personId ?? "fred")
    }
 
    public DoThing(fred: string): string {
